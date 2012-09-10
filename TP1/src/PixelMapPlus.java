@@ -58,7 +58,13 @@ public class PixelMapPlus extends PixelMap implements ImageOperations
     @Override
     public void negate()
     {
-        // compl�ter
+        for(int i = 0; i < height; i++)
+        {
+            for(int j = 0; j < width; j++)
+            {
+                imageData[i][j] = imageData[i][j].toColorPixel().Negative();
+            }
+        }
     }
 
     /**
@@ -67,7 +73,13 @@ public class PixelMapPlus extends PixelMap implements ImageOperations
     @Override
     public void convertToBWImage()
     {
-        // compl�ter
+        for(int i = 0; i < height; i++)
+        {
+            for(int j = 0; j < width; j++)
+            {
+                imageData[i][j] = imageData[i][j].toBWPixel();
+            }
+        }
     }
 
     /**
@@ -76,7 +88,13 @@ public class PixelMapPlus extends PixelMap implements ImageOperations
     @Override
     public void convertToGrayImage()
     {
-        // compl�ter
+        for(int i = 0; i < height; i++)
+        {
+            for(int j = 0; j < width; j++)
+            {
+                imageData[i][j] = imageData[i][j].toGrayPixel();
+            }
+        }
     }
 
     /**
@@ -99,7 +117,32 @@ public class PixelMapPlus extends PixelMap implements ImageOperations
     @Override
     public void rotate(boolean clockWise)
     {
+        double rotate;
+        AbstractPixel[][] newImage = new AbstractPixel[height][width];
         
+        if(clockWise)
+        {
+            rotate = Math.PI / 18;
+        }
+        else
+        {
+            rotate = Math.PI / 18;
+        }
+        
+        for(int i = 0; i < height; i ++)
+        {
+            for (int j = 0; j < width; j++)
+            {
+                int newI = (int) (Math.cos(rotate) * i - Math.sin(rotate) * j);
+                int newJ = (int) (Math.sin(rotate) * i + Math.cos(rotate) * j);
+                
+                if (newI < height && newI >= 0 && newJ < width && newJ >= 0)
+                {
+                    newImage[newI][newJ] = imageData[i][j];
+                }
+            }
+        }
+        imageData = newImage;
     }
 
     /**
@@ -121,7 +164,7 @@ public class PixelMapPlus extends PixelMap implements ImageOperations
         }
         height /= 2;
         width /= 2;
-        
+
         imageData = newImage;
     }
 
@@ -129,13 +172,13 @@ public class PixelMapPlus extends PixelMap implements ImageOperations
      * Insert pm dans l'image a la position row0 col0
      */
     @Override
-    public void inset(PixelMap pm, int row0, int col0)
+    public void insert(PixelMap pm, int row0, int col0)
     {
-        if(pm != null)
+        if (pm != null)
         {
-            for(int i = row0; i < height && i < pm.height; i++)
+            for (int i = row0; i < height && i < pm.height; i++)
             {
-                for(int j = col0; j < width && j < pm.width; j++)
+                for (int j = col0; j < width && j < pm.width; j++)
                 {
                     imageData[i][j] = pm.getPixel(i, j);
                 }
@@ -149,17 +192,26 @@ public class PixelMapPlus extends PixelMap implements ImageOperations
     @Override
     public void resize(int h, int w)
     {
-//        AbstractPixel[][] newImage = new AbstractPixel[h][w];
-//        if(h > 0 && w > 0)
-//        {
-//            for(int i = 0; i < h; i++)
-//            {
-//                for(int j = 0; j < w; j++)
-//                {
-//                    
-//                }
-//            }
-//        }
+        AbstractPixel[][] newImage = new AbstractPixel[h][w];
+        
+        for (int i = 0; i < h; i++)
+        {
+            for (int j = 0; j < w; j++)
+            {
+                if (i < h && i < height && j < w && j < width)
+                {
+                    newImage[i][j] = imageData[i][j]; // anciens pixels
+                }
+                // insert white space
+                else
+                {
+                    newImage[i][j] = new BWPixel(true);
+                }
+            }
+        }
+        height = h;
+        width = w;
+        imageData = newImage;
     }
 
     /**
@@ -168,6 +220,23 @@ public class PixelMapPlus extends PixelMap implements ImageOperations
     @Override
     public void translate(int rowOffset, int colOffset)
     {
-        // compl�ter
+        AbstractPixel[][] newImage = new AbstractPixel[height][width];
+
+        for (int i = 0; i < height; i++)
+        {
+            for (int j = 0; j < width; j++)
+            {
+                if ((i + rowOffset >= 0 && i + rowOffset < height) && (j + colOffset >= 0 && j + colOffset < width))
+                {
+                    newImage[i + rowOffset][j + colOffset] = imageData[i][j];
+                }
+                else
+                {
+                    newImage[i][j] = new BWPixel(true);
+                }
+            }
+        }
+
+        imageData = newImage;
     }
 }

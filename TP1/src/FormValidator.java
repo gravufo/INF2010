@@ -93,7 +93,7 @@ public class FormValidator {
 
 		// Insertion des images du code
 		for(int i=0; i<codeLength; i++)
-			codedImage.inset(pm[ i ], 0, i*pm[i].width);
+			codedImage.insert(pm[ i ], 0, i*pm[i].width);
 
 		// Demander le code a l'usager
 		String wName = "Code a entrer";
@@ -125,8 +125,15 @@ public class FormValidator {
 		char[] charKey = new char[ length ];
 
 		Random generator = new Random( System.nanoTime() );
-
-		// compl�ter
+                char[] alphabet = {'A','B','C','D','E','F','G','H','I','J','K',
+                    'L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
+                
+		for(int i = 0; i < length; i++)
+                {
+                    charKey[i] = alphabet[Math.abs(generator.nextInt() % 26)];
+                }
+                
+                return charKey.toString();
 	}
 
 	/**
@@ -141,7 +148,12 @@ public class FormValidator {
 
 		Random generator = new Random( System.nanoTime() );
 
-		// compl�ter
+		for(int i = 0; i < nb; i++)
+                {
+                    charTransform[i] = Math.abs(generator.nextInt() % 6);
+                }
+                
+                return charTransform;
 	}
 
 }

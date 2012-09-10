@@ -17,19 +17,19 @@ public class Main
 	    /**
 	     * Exercice 1
 	     */
-//	    PixelMap pmc = new PixelMap("ed.ppm");
-//	    PixelMap pmg = pmc.toGrayImage();
-//	    PixelMap pmb = pmc.toBWImage();
+	    PixelMap pmc = new PixelMap("ed.ppm");
+	    PixelMap pmg = pmc.toGrayImage();
+	    PixelMap pmb = pmc.toBWImage();
 
 
 	    String wName = "Edsger Dijkstra (original)";
-//	    new DisplayImageWindow(wName, pmc, 50, 50);
+	    new DisplayImageWindow(wName, pmc, 50, 50);
 
 	    wName = "Edsger Dijkstra (gris)";
-//	    new DisplayImageWindow(wName, pmg, 50 + 50, 50 + 50);
+	    new DisplayImageWindow(wName, pmg, 50 + 50, 50 + 50);
 
 	    wName = "Edsger Dijkstra (B&W)";
-//	    new DisplayImageWindow(wName, pmb, 50 + 100, 50 + 100);
+	    new DisplayImageWindow(wName, pmb, 50 + 100, 50 + 100);
 
 
 	    /**
@@ -38,6 +38,9 @@ public class Main
 	    PixelMapPlus pmp = new PixelMapPlus("./ed.ppm");
 	    PixelMapPlus hpmp = new PixelMapPlus(pmp);
 	    hpmp.halveHW();
+//            hpmp.translate(10, 10);
+//            hpmp.resize(100, 50);
+//            hpmp.rotate(true);
 	    PixelMapPlus gpmp = new PixelMapPlus(hpmp);
 	    gpmp.convertToGrayImage();
 	    PixelMapPlus bwpmp = new PixelMapPlus(hpmp);
@@ -45,10 +48,10 @@ public class Main
 	    PixelMapPlus npmp = new PixelMapPlus(hpmp);
 	    npmp.negate();
 
-	    pmp.inset(hpmp, 0, 0);
-	    pmp.inset(gpmp, pmp.getHeight() / 2, 0);
-	    pmp.inset(bwpmp, 0, pmp.getWidth() / 2);
-	    pmp.inset(npmp, pmp.getHeight() / 2, pmp.getWidth() / 2);
+	    pmp.insert(hpmp, 0, 0);
+	    pmp.insert(gpmp, pmp.getHeight() / 2, 0);
+	    pmp.insert(bwpmp, 0, pmp.getWidth() / 2);
+	    pmp.insert(npmp, pmp.getHeight() / 2, pmp.getWidth() / 2);
 
 	    wName = "Edsger Dijkstra";
 	    new DisplayImageWindow(wName, pmp);

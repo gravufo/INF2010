@@ -11,7 +11,7 @@ public interface ImageOperations
 	public void convertToGrayImage();
 	public void convertToColorImage();
 	public void halveHW();
-	public void inset(PixelMap pm, int row0, int col0);
+	public void insert(PixelMap pm, int row0, int col0);
 	public void rotate(boolean clockWise);
 	public void resize(int h, int w);
 	public void translate(int colOffset, int rowOffset);
