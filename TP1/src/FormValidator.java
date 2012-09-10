@@ -122,18 +122,18 @@ public class FormValidator {
 	{
 		if (length > 10) return null;
 
-		char[] charKey = new char[ length ];
+		String retour = "";
 
 		Random generator = new Random( System.nanoTime() );
                 char[] alphabet = {'A','B','C','D','E','F','G','H','I','J','K',
                     'L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
-                
+
 		for(int i = 0; i < length; i++)
                 {
-                    charKey[i] = alphabet[Math.abs(generator.nextInt() % 26)];
+                    retour += alphabet[Math.abs(generator.nextInt() % 26)];
                 }
-                
-                return charKey.toString();
+
+                return retour;
 	}
 
 	/**
@@ -152,7 +152,7 @@ public class FormValidator {
                 {
                     charTransform[i] = Math.abs(generator.nextInt() % 6);
                 }
-                
+
                 return charTransform;
 	}
 

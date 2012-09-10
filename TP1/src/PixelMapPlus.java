@@ -55,22 +55,24 @@ public class PixelMapPlus extends PixelMap implements ImageOperations
     /**
      * Genere le negatif d'une image
      */
-    @Override
-    public void negate()
-    {
-        for(int i = 0; i < height; i++)
-        {
-            for(int j = 0; j < width; j++)
-            {
-                imageData[i][j] = imageData[i][j].toColorPixel().Negative();
-            }
-        }
-    }
+      public void negate()
+      {
+	    AbstractPixel[][] newImage = new AbstractPixel[height][width];
+
+	    for (int i = 0; i < height; i++)
+	    {
+		  for (int j = 0; j < width; j++)
+		  {
+			newImage[i][j] = imageData[i][j].Negative();
+		  }
+	    }
+	    imageData = newImage;
+      }
 
     /**
      * Convertit l'image vers une image en noir et blanc
      */
-    @Override
+
     public void convertToBWImage()
     {
         for(int i = 0; i < height; i++)
@@ -85,7 +87,7 @@ public class PixelMapPlus extends PixelMap implements ImageOperations
     /**
      * Convertit l'image vers un format de tons de gris
      */
-    @Override
+
     public void convertToGrayImage()
     {
         for(int i = 0; i < height; i++)
@@ -100,10 +102,16 @@ public class PixelMapPlus extends PixelMap implements ImageOperations
     /**
      * Convertit l'image vers une image en couleurs
      */
-    @Override
+
     public void convertToColorImage()
     {
-        // compl�ter
+        for(int i = 0; i < height; i++)
+        {
+            for(int j = 0; j < width; j++)
+            {
+                imageData[i][j] = imageData[i][j].toColorPixel();
+            }
+        }
     }
 
     /**
@@ -114,28 +122,36 @@ public class PixelMapPlus extends PixelMap implements ImageOperations
      *
      * @param clockWise : Direction de la rotation
      */
-    @Override
+
     public void rotate(boolean clockWise)
     {
-        double rotate;
+        double angle;
         AbstractPixel[][] newImage = new AbstractPixel[height][width];
-        
+
         if(clockWise)
         {
-            rotate = Math.PI / 18;
+            angle = Math.toRadians(10);
         }
         else
         {
-            rotate = Math.PI / 18;
+            angle = Math.toRadians(-10);
         }
-        
+
         for(int i = 0; i < height; i ++)
         {
             for (int j = 0; j < width; j++)
             {
-                int newI = (int) (Math.cos(rotate) * i - Math.sin(rotate) * j);
-                int newJ = (int) (Math.sin(rotate) * i + Math.cos(rotate) * j);
-                
+		  newImage[i][j] = new BWPixel(true);
+	    }
+	}
+
+        for(int i = 0; i < height; i ++)
+        {
+            for (int j = 0; j < width; j++)
+            {
+                int newI = (int) (Math.cos(angle) * i - Math.sin(angle) * j);
+                int newJ = (int) (Math.sin(angle) * i + Math.cos(angle) * j);
+
                 if (newI < height && newI >= 0 && newJ < width && newJ >= 0)
                 {
                     newImage[newI][newJ] = imageData[i][j];
@@ -150,7 +166,7 @@ public class PixelMapPlus extends PixelMap implements ImageOperations
      *
      * @param clockWise : Direction de la rotation
      */
-    @Override
+
     public void halveHW()
     {
         AbstractPixel[][] newImage = new AbstractPixel[height / 2][width / 2];
@@ -171,29 +187,25 @@ public class PixelMapPlus extends PixelMap implements ImageOperations
     /**
      * Insert pm dans l'image a la position row0 col0
      */
-    @Override
-    public void insert(PixelMap pm, int row0, int col0)
-    {
-        if (pm != null)
-        {
-            for (int i = row0; i < height && i < pm.height; i++)
-            {
-                for (int j = col0; j < width && j < pm.width; j++)
-                {
-                    imageData[i][j] = pm.getPixel(i, j);
-                }
-            }
-        }
-    }
+      public void insert(PixelMap pm, int row0, int col0)
+      {
+	    for (int i = 0; i < pm.height && i + row0 < height; i++)
+	    {
+		  for (int j = 0; j < pm.width && j + col0 < width; j++)
+		  {
+			imageData[i+row0][j+col0] = pm.getPixel(i, j);
+		  }
+	    }
+      }
 
     /**
      * Redimentionne l'image
      */
-    @Override
+
     public void resize(int h, int w)
     {
         AbstractPixel[][] newImage = new AbstractPixel[h][w];
-        
+
         for (int i = 0; i < h; i++)
         {
             for (int j = 0; j < w; j++)
@@ -217,7 +229,7 @@ public class PixelMapPlus extends PixelMap implements ImageOperations
     /**
      * Effectue une translation de l'image
      */
-    @Override
+
     public void translate(int rowOffset, int colOffset)
     {
         AbstractPixel[][] newImage = new AbstractPixel[height][width];

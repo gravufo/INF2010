@@ -36,7 +36,6 @@ public class ColorPixel extends AbstractPixel
       /**
        * Renvoie un pixel copie de type noir et blanc
        */
-      @Override
       public BWPixel toBWPixel()
       {
 	    double moyenne = (rgb[0] + rgb[1] + rgb[2]) / 3;
@@ -57,7 +56,6 @@ public class ColorPixel extends AbstractPixel
       /**
        * Renvoie un pixel copie de type tons de gris
        */
-      @Override
       public GrayPixel toGrayPixel()
       {
 	    return new GrayPixel((rgb[0] + rgb[1] + rgb[2]) / 3);
@@ -66,7 +64,6 @@ public class ColorPixel extends AbstractPixel
       /**
        * Renvoie un pixel copie de type couleurs
        */
-      @Override
       public ColorPixel toColorPixel()
       {
 	    return new ColorPixel(rgb);
@@ -75,7 +72,7 @@ public class ColorPixel extends AbstractPixel
       /**
        * Renvoie le negatif du pixel (255-pixel)
        */
-      @Override
+
       public AbstractPixel Negative()
       {
 	    int[] negatif =
@@ -90,7 +87,7 @@ public class ColorPixel extends AbstractPixel
        * Convertit le pixel en String (sert a ecrire dans un fichier
        * (avec un espace supplémentaire en fin)s
        */
-      @Override
+
       public String toString()
       {
 	    return ((Integer) rgb[0]).toString() + " "

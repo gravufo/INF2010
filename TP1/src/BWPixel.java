@@ -66,7 +66,6 @@ public class BWPixel extends AbstractPixel
       /**
        * Renvoie un pixel copie de type couleurs
        */
-      @Override
       public ColorPixel toColorPixel()
       {
 	    int pixelVal = (pixel ? 255 : 0);

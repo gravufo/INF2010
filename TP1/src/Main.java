@@ -38,9 +38,6 @@ public class Main
 	    PixelMapPlus pmp = new PixelMapPlus("./ed.ppm");
 	    PixelMapPlus hpmp = new PixelMapPlus(pmp);
 	    hpmp.halveHW();
-//            hpmp.translate(10, 10);
-//            hpmp.resize(100, 50);
-//            hpmp.rotate(true);
 	    PixelMapPlus gpmp = new PixelMapPlus(hpmp);
 	    gpmp.convertToGrayImage();
 	    PixelMapPlus bwpmp = new PixelMapPlus(hpmp);
