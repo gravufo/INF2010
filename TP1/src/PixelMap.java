@@ -3,370 +3,377 @@
  * Classe PixelMap Image de type noir et blanc, tons de gris ou couleurs Peut
  * lire et ecrire des fichiers PNM
  *
- * @author : Tarek Ould Bachir (remplacer par votre nom) @date : 2011-09-10
+ * @author : Tarek Ould Bachir (remplacer par votre nom)
+ * @date : 2011-09-10
  */
 import java.io.*;
 import java.util.StringTokenizer;
 
 public class PixelMap
 {
-    public enum ImageType
-    {
-        BW, Gray, Color
-    } //enum definissant type image
-    protected int height; // hauteur de l'image
-    protected int width; // largeur de l'image
-    protected ImageType imageType; // type de l'image
-    AbstractPixel[][] imageData; // donnees de l'image
 
-    /**
-     * Constructeur creant l'image a partir d'un fichier
-     *
-     * @param fileName : Nom du fichier image
-     */
-    PixelMap(String fileName)
-    {
-        try
-        {
-            readFromFile(fileName);
-        }
-        catch (IOException e)
-        {
-            System.err.println(e);
-            clearData();
-        }
-    }
+      public enum ImageType
+      {
 
-    /**
-     * Constructeur copie
-     *
-     * @param image : source
-     */
-    PixelMap(PixelMap image)
-    {
-        this(image.imageType, image);
-    }
+	    BW, Gray, Color
+      } //enum definissant type image
+      protected int height; // hauteur de l'image
+      protected int width; // largeur de l'image
+      protected ImageType imageType; // type de l'image
+      AbstractPixel[][] imageData; // donnees de l'image
 
-    /**
-     * Constructeur copie (sert a changer de format)
-     *
-     * @param type  : type de l'image a creer (BW/Gray/Color)
-     * @param image : source
-     */
-    PixelMap(ImageType type, PixelMap image)
-    {
-        imageType = type;
+      /**
+       * Constructeur creant l'image a partir d'un fichier
+       *
+       * @param fileName : Nom du fichier image
+       */
+      PixelMap(String fileName)
+      {
+	    try
+	    {
+		  readFromFile(fileName);
+	    }
+	    catch (IOException e)
+	    {
+		  System.err.println(e);
+		  clearData();
+	    }
+      }
 
-        if (!(image.width > 0 && image.height > 0) || image == null)
-        {
-            height = width = 0;
-            return;
-        }
+      /**
+       * Constructeur copie
+       *
+       * @param image : source
+       */
+      PixelMap(PixelMap image)
+      {
+	    this(image.imageType, image);
+      }
 
-        AllocateMemory(type, image.height, image.width);
+      /**
+       * Constructeur copie (sert a changer de format)
+       *
+       * @param type  : type de l'image a creer (BW/Gray/Color)
+       * @param image : source
+       */
+      PixelMap(ImageType type, PixelMap image)
+      {
+	    imageType = type;
 
-        for (int row = 0; row < height; row++)
-        {
-            for (int col = 0; col < width; col++)
-            {
-                if (type == ImageType.BW)
-                {
-                    imageData[row][col] = (image.getPixel(row, col)).toBWPixel();
-                }
-                else if (type == ImageType.Gray)
-                {
-                    imageData[row][col] = (image.getPixel(row, col)).toGrayPixel();
-                }
-                else //if( type == ImageType.Color )
-                {
-                    imageData[row][col] = (image.getPixel(row, col)).toColorPixel();
-                }
-            }
-        }
-    }
+	    if (!(image.width > 0 && image.height > 0) || image == null)
+	    {
+		  height = width = 0;
+		  return;
+	    }
 
-    /**
-     * Constructeur servant a allouer la memoire de l'image
-     *
-     * @param type : type d'image (BW/Gray/Color)
-     * @param h    : hauteur (height) de l'image
-     * @param w    : largeur (width) de l'image
-     */
-    PixelMap(ImageType type, int h, int w)
-    {
-        imageType = type;
-        if (!(h > 0 && w > 0))
-        {
-            height = width = 0;
-            return;
-        }
+	    AllocateMemory(type, image.height, image.width);
 
-        AllocateMemory(type, h, w);
-    }
+	    for (int row = 0; row < height; row++)
+	    {
+		  for (int col = 0; col < width; col++)
+		  {
+			if (type == ImageType.BW)
+			{
+			      imageData[row][col] = (image.getPixel(row, col)).toBWPixel();
+			}
+			else if (type == ImageType.Gray)
+			{
+			      imageData[row][col] = (image.getPixel(row, col)).toGrayPixel();
+			}
+			else //if( type == ImageType.Color )
+			{
+			      imageData[row][col] = (image.getPixel(row, col)).toColorPixel();
+			}
+		  }
+	    }
+      }
 
-    /**
-     * Alloue la memoire de l'image, tous les pixels sont blancs
-     *
-     * @param type : type d'image (BW/Gray/Color)
-     * @param h    : hauteur (height) de l'image
-     * @param w    : largeur (width) de l'image
-     */
-    protected void AllocateMemory(ImageType type, int h, int w)
-    {
+      /**
+       * Constructeur servant a allouer la memoire de l'image
+       *
+       * @param type : type d'image (BW/Gray/Color)
+       * @param h    : hauteur (height) de l'image
+       * @param w    : largeur (width) de l'image
+       */
+      PixelMap(ImageType type, int h, int w)
+      {
+	    imageType = type;
+	    if (!(h > 0 && w > 0))
+	    {
+		  height = width = 0;
+		  return;
+	    }
 
-        if (!(h > 0 && w > 0))
-        {
-            return;
-        }
-        imageData = new AbstractPixel[h][w];
-        // check if must be kept
-        imageType = type;
-        height = h;
-        width = w;
+	    AllocateMemory(type, h, w);
+      }
 
-        // compl�ter
-    }
+      /**
+       * Alloue la memoire de l'image, tous les pixels sont blancs
+       *
+       * @param type : type d'image (BW/Gray/Color)
+       * @param h    : hauteur (height) de l'image
+       * @param w    : largeur (width) de l'image
+       */
+      protected void AllocateMemory(ImageType type, int h, int w)
+      {
 
-    /**
-     * Lib�rer la m�moire
-     */
-    public void clearData()
-    {
-        // compl�ter
-    }
+	    if (!(h > 0 && w > 0))
+	    {
+		  return;
+	    }
+	    imageData = new AbstractPixel[h][w];
+	    // check if must be kept
+	    imageType = type;
+	    height = h;
+	    width = w;
 
-    /**
-     * Retourne le pixel associe a la position recherchee
-     *
-     * @param row
-     ram
-     *                                                                            col
-     * @return
-     */
-    public AbstractPixel getPixel(int row, int col) throws IndexOutOfBoundsException
-    {
-        if ((row < 0) || (col < 0))
-        {
-            throw new java.lang.IndexOutOfBoundsException();
-        }
-        else if ((row < height) && (col < width))
-        {
-            return imageData[row][col];
-        }
-        else
-        {
-            throw new java.lang.IndexOutOfBoundsException();
-        }
-    }
+	    // compl�ter
+      }
 
-    /**
-     * Retourne la hauteur de l'image
-     */
-    public int getHeight()
-    {
-        return height;
-    }
+      /**
+       * Lib�rer la m�moire
+       */
+      public void clearData()
+      {
+	    // compl�ter
+      }
 
-    /**
-     * Retourne la latgeur de l'image
-     */
-    public int getWidth()
-    {
-        return width;
-    }
+      /**
+       * Retourne le pixel associe a la position recherchee
+       *
+       * @param row
+       *            ram
+       *            col
+       *
+       * @return
+       */
+      public AbstractPixel getPixel(int row, int col) throws IndexOutOfBoundsException
+      {
+	    if ((row < 0) || (col < 0))
+	    {
+		  throw new java.lang.IndexOutOfBoundsException();
+	    }
+	    else if ((row < height) && (col < width))
+	    {
+		  return imageData[row][col];
+	    }
+	    else
+	    {
+		  throw new java.lang.IndexOutOfBoundsException();
+	    }
+      }
 
-    /**
-     * Retourne le type de l'image
-     */
-    public ImageType getType()
-    {
-        return imageType;
-    }
+      /**
+       * Retourne la hauteur de l'image
+       */
+      public int getHeight()
+      {
+	    return height;
+      }
 
-    /**
-     * Retourne une copie dans le format noir et blanc
-     */
-    public PixelMap toBWImage()
-    {
-        return new PixelMap(ImageType.BW, this);
-    }
+      /**
+       * Retourne la latgeur de l'image
+       */
+      public int getWidth()
+      {
+	    return width;
+      }
 
-    /**
-     * Retourne une copie dans le format tons de gris
-     */
-    public PixelMap toGrayImage()
-    {
-        return new PixelMap(ImageType.Gray, this);
-    }
+      /**
+       * Retourne le type de l'image
+       */
+      public ImageType getType()
+      {
+	    return imageType;
+      }
 
-    /**
-     * Retourne une copie dans le format couleur
-     */
-    public PixelMap toColorImage()
-    {
-        return new PixelMap(ImageType.Color, this);
-    }
+      /**
+       * Retourne une copie dans le format noir et blanc
+       */
+      public PixelMap toBWImage()
+      {
+	    return new PixelMap(ImageType.BW, this);
+      }
 
-    /**
-     * Ecrit les donnees de l'image dans un fichier.
-     *
-     * @param fileName : Nom du fichier (sans extension)
-     * @throws IOException : renvoie une erreur le cas echeant (disque plein par
-     *                     ex.)
-     */
-    void writeToFile(String fileName) throws IOException
-    {
-        FileOutputStream ofile = null;
+      /**
+       * Retourne une copie dans le format tons de gris
+       */
+      public PixelMap toGrayImage()
+      {
+	    return new PixelMap(ImageType.Gray, this);
+      }
 
-        if (imageType == ImageType.BW)
-        {
-            ofile = new FileOutputStream(fileName + ".pbm");
-            ofile.write(((String) "P1\n").getBytes());
-        }
-        else if (imageType == ImageType.Gray)
-        {
-            ofile = new FileOutputStream(fileName + ".pgm");
-            ofile.write(((String) "P2\n").getBytes());
-        }
-        else
-        { //if( imageType == ImageType.Color )
-            ofile = new FileOutputStream(fileName + ".ppm");
-            ofile.write(((String) "P3\n").getBytes());
-        }
+      /**
+       * Retourne une copie dans le format couleur
+       */
+      public PixelMap toColorImage()
+      {
+	    return new PixelMap(ImageType.Color, this);
+      }
 
-        ofile.write((((Integer) width).toString() + " " + ((Integer) height).toString() + "\n").getBytes());
+      /**
+       * Ecrit les donnees de l'image dans un fichier.
+       *
+       * @param fileName : Nom du fichier (sans extension)
+       *
+       * @throws IOException : renvoie une erreur le cas echeant (disque plein
+       *                     par
+       *                     ex.)
+       */
+      void writeToFile(String fileName) throws IOException
+      {
+	    FileOutputStream ofile = null;
 
-        ofile.write(((String) "# Created by PixelMap\n").getBytes());
+	    if (imageType == ImageType.BW)
+	    {
+		  ofile = new FileOutputStream(fileName + ".pbm");
+		  ofile.write(((String) "P1\n").getBytes());
+	    }
+	    else if (imageType == ImageType.Gray)
+	    {
+		  ofile = new FileOutputStream(fileName + ".pgm");
+		  ofile.write(((String) "P2\n").getBytes());
+	    }
+	    else
+	    { //if( imageType == ImageType.Color )
+		  ofile = new FileOutputStream(fileName + ".ppm");
+		  ofile.write(((String) "P3\n").getBytes());
+	    }
 
-        if (imageType == ImageType.Gray)
-        {
-            ofile.write(((String) "255\n").getBytes());
-        }
-        else if (imageType == ImageType.Color)
-        {
-            ofile.write(((String) "255\n").getBytes());
-        }
+	    ofile.write((((Integer) width).toString() + " " + ((Integer) height).toString() + "\n").getBytes());
 
-        for (int row = 0; row < height; row++)
-        {
-            for (int col = 0; col < width; col++)
-            {
-                byte[] buf = (imageData[row][col].toString()).getBytes();
-                ofile.write(buf);
-            }
-        }
+	    ofile.write(((String) "# Created by PixelMap\n").getBytes());
 
-        ofile.close();
-    }
+	    if (imageType == ImageType.Gray)
+	    {
+		  ofile.write(((String) "255\n").getBytes());
+	    }
+	    else if (imageType == ImageType.Color)
+	    {
+		  ofile.write(((String) "255\n").getBytes());
+	    }
 
-    /**
-     * Initialise les donnees de l'image a partir d'un fichier PNM
-     *
-     * @param fileName : nom du fichier (avec extension)
-     * @throws IOException : renvoie une erreur le cas echeant (pas de ficher
-     *                     par ex.)
-     */
-    void readFromFile(String fileName) throws IOException
-    {
-        FileReader fr = new FileReader(new File(fileName));
-        BufferedReader br = new BufferedReader(fr);
-        int nbTokens = 0, ExpectedTokens = 3;
-        int curColor = 0, ExpectedColors = 1;
-        int[] params = new int[3];
-        int[] rgb = new int[3];
-        int col = 0, row = 0, w = 0, h = 0;
-        boolean TableInitialized = false;
-        StringTokenizer st;
+	    for (int row = 0; row < height; row++)
+	    {
+		  for (int col = 0; col < width; col++)
+		  {
+			byte[] buf = (imageData[row][col].toString()).getBytes();
+			ofile.write(buf);
+		  }
+	    }
 
-        ImageType imtype;
+	    ofile.close();
+      }
 
-        String buffer = br.readLine(); // File type
+      /**
+       * Initialise les donnees de l'image a partir d'un fichier PNM
+       *
+       * @param fileName : nom du fichier (avec extension)
+       *
+       * @throws IOException : renvoie une erreur le cas echeant (pas de ficher
+       *                     par ex.)
+       */
+      void readFromFile(String fileName) throws IOException
+      {
+	    FileReader fr = new FileReader(new File(fileName));
+	    BufferedReader br = new BufferedReader(fr);
+	    int nbTokens = 0, ExpectedTokens = 3;
+	    int curColor = 0, ExpectedColors = 1;
+	    int[] params = new int[3];
+	    int[] rgb = new int[3];
+	    int col = 0, row = 0, w = 0, h = 0;
+	    boolean TableInitialized = false;
+	    StringTokenizer st;
 
-        String header = buffer.trim();
+	    ImageType imtype;
 
-        if (header.equals("P1"))
-        {
-            imtype = ImageType.BW;
-            ExpectedTokens = 2;
-        }
-        else if (header.equals("P2"))
-        {
-            imtype = ImageType.Gray;
-        }
-        else if (header.equals("P3"))
-        {
-            imtype = ImageType.Color;
-            ExpectedColors = 3;
-        }
-        else
-        {
-            throw new IOException(fileName + " : ne contient pas le bon entête");
-        }
+	    String buffer = br.readLine(); // File type
+
+	    String header = buffer.trim();
+
+	    if (header.equals("P1"))
+	    {
+		  imtype = ImageType.BW;
+		  ExpectedTokens = 2;
+	    }
+	    else if (header.equals("P2"))
+	    {
+		  imtype = ImageType.Gray;
+	    }
+	    else if (header.equals("P3"))
+	    {
+		  imtype = ImageType.Color;
+		  ExpectedColors = 3;
+	    }
+	    else
+	    {
+		  throw new IOException(fileName + " : ne contient pas le bon entête");
+	    }
 
 
-        while ((buffer = br.readLine()) != null)
-        {
-            if (buffer.length() > 0 && buffer.charAt(0) != '#')
-            {
+	    while ((buffer = br.readLine()) != null)
+	    {
+		  if (buffer.length() > 0 && buffer.charAt(0) != '#')
+		  {
 
-                st = new StringTokenizer(buffer);
+			st = new StringTokenizer(buffer);
 
-                while (st.hasMoreTokens())
-                {
+			while (st.hasMoreTokens())
+			{
 
-                    if (nbTokens < ExpectedTokens)
-                    {
+			      if (nbTokens < ExpectedTokens)
+			      {
 
-                        params[nbTokens] = Integer.parseInt(st.nextToken());
-                        nbTokens++;
+				    params[nbTokens] = Integer.parseInt(st.nextToken());
+				    nbTokens++;
 
-                    }
-                    else if (!TableInitialized)
-                    {
+			      }
+			      else if (!TableInitialized)
+			      {
 
-                        w = params[0];
-                        h = params[1];
-                        AllocateMemory(imtype, h, w);
-                        TableInitialized = true;
-                    }
-                    else
-                    {
-                        rgb[curColor] = Integer.parseInt(st.nextToken());
-                        curColor++;
+				    w = params[0];
+				    h = params[1];
+				    AllocateMemory(imtype, h, w);
+				    TableInitialized = true;
+			      }
+			      else
+			      {
+				    rgb[curColor] = Integer.parseInt(st.nextToken());
+				    curColor++;
 
-                        if (curColor == ExpectedColors)
-                        {
+				    if (curColor == ExpectedColors)
+				    {
 
-                            if (imtype == ImageType.BW)
-                            {
-                                imageData[row][col] = new BWPixel(rgb[0] == 1);
-                            }
-                            else if (imtype == ImageType.Gray)
-                            {
-                                imageData[row][col] = new GrayPixel(rgb[0]);
-                            }
-                            else //if(imtype == ImageType.Color)
-                            {
-                                imageData[row][col] = new ColorPixel(rgb);
-                            }
+					  if (imtype == ImageType.BW)
+					  {
+						imageData[row][col] = new BWPixel(rgb[0] == 1);
+					  }
+					  else if (imtype == ImageType.Gray)
+					  {
+						imageData[row][col] = new GrayPixel(rgb[0]);
+					  }
+					  else //if(imtype == ImageType.Color)
+					  {
+						imageData[row][col] = new ColorPixel(rgb);
+					  }
 
-                            curColor = 0;
+					  curColor = 0;
 
-                            if (col == w - 1)
-                            {
-                                row++;
-                                col = 0;
-                            }
-                            else
-                            {
-                                col++;
-                            }
-                        }
-                    }
-                }
-            }
-        }
+					  if (col == w - 1)
+					  {
+						row++;
+						col = 0;
+					  }
+					  else
+					  {
+						col++;
+					  }
+				    }
+			      }
+			}
+		  }
+	    }
 
-        br.close();
-    }
+	    br.close();
+      }
 }

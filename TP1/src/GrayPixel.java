@@ -1,3 +1,4 @@
+
 /**
  * Classe de pixel en tons de gris
  *
@@ -48,23 +49,21 @@ public class GrayPixel extends AbstractPixel
       /**
        * Renvoie un pixel copie de type noir et blanc
        */
-
       public BWPixel toBWPixel()
       {
-	    boolean isBlack = true;
+	    boolean isWhite = true; // Pixel blanc --> 1
 
 	    if (pixel <= 127)
 	    {
-		  isBlack = false;
+		  isWhite = false; // Pixel noir --> 0
 	    }
 
-	    return new BWPixel(isBlack);
+	    return new BWPixel(isWhite);
       }
 
       /**
        * Renvoie un pixel copie de type tons de gris
        */
-
       public GrayPixel toGrayPixel()
       {
 	    return new GrayPixel(pixel);
@@ -73,7 +72,6 @@ public class GrayPixel extends AbstractPixel
       /**
        * Renvoie un pixel copie de type couleurs
        */
-
       public ColorPixel toColorPixel()
       {
 	    int[] temp =
@@ -86,7 +84,6 @@ public class GrayPixel extends AbstractPixel
       /**
        * Renvoie le negatif du pixel (255-pixel)
        */
-
       public AbstractPixel Negative()
       {
 	    return new GrayPixel(255 - this.pixel);
@@ -96,7 +93,6 @@ public class GrayPixel extends AbstractPixel
        * Convertit le pixel en String (sert a ecrire dans un fichier
        * (avec un espace supplémentaire en fin)s
        */
-
       public String toString()
       {
 	    return ((Integer) (pixel)).toString() + " ";

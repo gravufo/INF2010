@@ -1,3 +1,4 @@
+
 /**
  * Fichier principal pour les exercices 1 et 2
  *
@@ -52,6 +53,5 @@ public class Main
 
 	    wName = "Edsger Dijkstra";
 	    new DisplayImageWindow(wName, pmp);
-
       }
 }

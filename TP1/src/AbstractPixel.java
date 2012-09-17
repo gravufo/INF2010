@@ -1,3 +1,4 @@
+
 /**
  * Classe abstraite de pixel
  *

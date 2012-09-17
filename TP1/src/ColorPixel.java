@@ -1,3 +1,4 @@
+
 /**
  * Classe de pixel en couleurs (remplacer par votre nom)
  *
@@ -39,18 +40,18 @@ public class ColorPixel extends AbstractPixel
       public BWPixel toBWPixel()
       {
 	    double moyenne = (rgb[0] + rgb[1] + rgb[2]) / 3;
-	    boolean isBlack;
+	    boolean isWhite;
 
 	    if (moyenne <= 127)
 	    {
-		  isBlack = false;
+		  isWhite = false; // Pixel noir --> 0
 	    }
 	    else
 	    {
-		  isBlack = true;
+		  isWhite = true; // Pixel blanc --> 1
 	    }
 
-	    return (new BWPixel(isBlack));
+	    return (new BWPixel(isWhite)); // Retour d'un objet BWPixel
       }
 
       /**
@@ -72,7 +73,6 @@ public class ColorPixel extends AbstractPixel
       /**
        * Renvoie le negatif du pixel (255-pixel)
        */
-
       public AbstractPixel Negative()
       {
 	    int[] negatif =
@@ -87,7 +87,6 @@ public class ColorPixel extends AbstractPixel
        * Convertit le pixel en String (sert a ecrire dans un fichier
        * (avec un espace supplémentaire en fin)s
        */
-
       public String toString()
       {
 	    return ((Integer) rgb[0]).toString() + " "
