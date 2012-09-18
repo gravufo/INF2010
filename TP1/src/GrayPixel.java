@@ -2,7 +2,7 @@
 /**
  * Classe de pixel en tons de gris
  *
- * @author Tarek Ould Bachir (remplacer par votre nom)
+ * @author Tarek Ould Bachir (Christian Artin, Pavel Brzezinski)
  * @date : 2011-09-10
  */
 public class GrayPixel extends AbstractPixel

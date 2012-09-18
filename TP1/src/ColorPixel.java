@@ -1,8 +1,8 @@
 
 /**
- * Classe de pixel en couleurs (remplacer par votre nom)
+ * Classe de pixel en couleurs
  *
- * @author Tarek Ould Bachir
+ * @author Tarek Ould Bachir (Christian Artin, Pavel Brzezinski)
  * @date : 2011-09-10
  */
 public class ColorPixel extends AbstractPixel

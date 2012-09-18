@@ -2,7 +2,7 @@
 /**
  * Fichier principal pour les exercices 1 et 2
  *
- * @author Tarek Ould Bachir (remplacer par votre nom)
+ * @author Tarek Ould Bachir (Christian Artin, Pavel Brzezinski)
  * @date : 2011-09-10
  */
 public class Main

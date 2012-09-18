@@ -3,7 +3,7 @@
  * Classe PixelMap Image de type noir et blanc, tons de gris ou couleurs Peut
  * lire et ecrire des fichiers PNM
  *
- * @author : Tarek Ould Bachir (remplacer par votre nom)
+ * @author : Tarek Ould Bachir (Christian Artin, Pavel Brzezinski)
  * @date : 2011-09-10
  */
 import java.io.*;
