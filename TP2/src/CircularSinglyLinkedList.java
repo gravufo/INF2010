@@ -203,6 +203,7 @@ public class CircularSinglyLinkedList<Elem> implements Iterable<Elem>
             // ecrivez CircularSinglyLinkedList.this.remove(i)
             
             CircularSinglyLinkedList.this.remove(position);
+            position--;
         }
 
         public Elem next()
