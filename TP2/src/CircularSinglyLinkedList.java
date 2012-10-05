@@ -1,7 +1,6 @@
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import java.util.Random;
 
 public class CircularSinglyLinkedList<Elem> implements Iterable<Elem>
 {
@@ -56,20 +55,23 @@ public class CircularSinglyLinkedList<Elem> implements Iterable<Elem>
             throw new IndexOutOfBoundsException();
         }
         
-        Node temp = last.getNext();
+        Node temp = last.getNext(); // On commence au premier element
+        
+        // Boucle qui s'arrete a l'element que nous cherchons
         for(int i = 0; i < index; i++)
         {
             temp = temp.getNext();
         }
+        
         return temp.getElem();
     }
 
     //Creation du premier element de la liste
     private void init(Elem item)
     {
-        last = new Node(item, null);
-        last.setNext(last);
-        size = 1;
+        last = new Node(item, null); // Ajout du premier element
+        last.setNext(last); // On fait le lien circulaire
+        size = 1; // On initialise la taille a 1
     }
 
     //Ajout d'un element a la fin de la liste
@@ -82,10 +84,10 @@ public class CircularSinglyLinkedList<Elem> implements Iterable<Elem>
         }
         else
         {
-            Node ajout = new Node(item, last.getNext());
-            last.setNext(ajout);
-            size++;
-            last = ajout;
+            Node ajout = new Node(item, last.getNext()); // On place l'objet apres last
+            last.setNext(ajout); // On pointe l'ancien last au nouveau last
+            size++; // On augmente la taille de la liste
+            last = ajout; // On reassigne la variable (pointeur) last au nouveau last
         }
     }
 
@@ -110,14 +112,16 @@ public class CircularSinglyLinkedList<Elem> implements Iterable<Elem>
         //La liste a au moins un element et l'insertion n'est pas a la fin
         else
         {
-            Node temp = last;
+            Node temp = last; // on commence a last
+            
             for(int i = 0; i < index; i++) // Ends up at index - 1
             {
                 temp = temp.getNext();
             }
-            Node ajout = new Node(item, temp.getNext());
-            temp.setNext(ajout);
-            size++;
+            
+            Node ajout = new Node(item, temp.getNext()); // Creation du nouvel element
+            temp.setNext(ajout); // Ajout du nouvel element a la position demandee
+            size++; // Incrementation de la taille de la liste
         }
     }
 
@@ -129,14 +133,23 @@ public class CircularSinglyLinkedList<Elem> implements Iterable<Elem>
             throw new IndexOutOfBoundsException();
         }
         
-        Node temp = last;
-        
-        for(int i = 0; i < index; i++)
+        Node temp = last; // On commence a last
+
+        for (int i = 0; i < index; i++) // Boucle qui nous amene a un element avant index
         {
-            temp = last.getNext();
+            temp = temp.getNext();
         }
-        temp.setNext(temp.getNext().getNext());
-        size--;
+        
+        if(temp.getNext() == last) // Si on est au dernier element
+        {
+            last = temp; // On assigne last a l'element precedent
+        }
+        
+        temp.setNext(temp.getNext().getNext()); // On pointe le precedent vers le suivant
+        // Le garbage collector de Java va s'occuper de detruire l'objet, car
+        // Il n'est plus pointe par aucun element
+        size--; // Decrementation de la taille
+
     }
 
     // Methode requise par l'interface Iterable
@@ -185,12 +198,12 @@ public class CircularSinglyLinkedList<Elem> implements Iterable<Elem>
         // Voyez: http://download.oracle.com/javase/6/docs/api/java/util/Iterator.html#remove()
         private boolean canRemove = false;
         private Node currentNode = last;
-        private int position = 0;
+        private int position = 0; // Position courante, 0 = last
 
         public boolean hasNext()
         {
-            canRemove = last.getNext() != last;
-            return canRemove;
+            // Si last pointe vers last, il n'y a plus d'elements dans la liste
+            return last.getNext() != last;
         }
 
         public void remove()
@@ -201,9 +214,17 @@ public class CircularSinglyLinkedList<Elem> implements Iterable<Elem>
             }
             // Si vous desirez appeler la fonction remove() de CircularSinglyLinkedList,
             // ecrivez CircularSinglyLinkedList.this.remove(i)
+            if(position != 0)
+            {
+                CircularSinglyLinkedList.this.remove(position - 1);
+                position--;
+            }
+            else
+            {
+                CircularSinglyLinkedList.this.remove(size - 1);
+            }
             
-            CircularSinglyLinkedList.this.remove(position);
-            position--;
+            canRemove = false;
         }
 
         public Elem next()
@@ -214,19 +235,18 @@ public class CircularSinglyLinkedList<Elem> implements Iterable<Elem>
             }
             
             currentNode = currentNode.getNext();
-            if (position >= size - 1)
+            
+            canRemove = true;
+            
+            if(currentNode == last) // Si on est au dernier element
             {
-                position = 0;
+                position = 0; // On reinitialise la position
             }
             else
             {
-                position++;
+                position++; // On incremente la position
             }
-
-//            if(currentNode.getNext() == currentNode)
-//            {
-//                canRemove = false;
-//            }
+            
             return currentNode.getElem();
         }
     }
