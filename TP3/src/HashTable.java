@@ -12,12 +12,12 @@ class HashTable<E> implements NoInitHashTable<E>
     /**
      * Pile qui contient les positions des objets dans le tableau
      */
-    private Vector<Integer> myTable = new Vector<>();
+    private Vector<Integer> hashKeys = new Vector<>();
     
     /**
-     * 
+     * Contient les positions des hashkeys dans la pile
      */
-    private int[] hashKeys = new int[DEFAULT_SIZE];
+    private int[] hashKeysPosition = new int[DEFAULT_SIZE];
     
     /**
      * Contient les objets positionnes selon leur hash
@@ -35,10 +35,13 @@ class HashTable<E> implements NoInitHashTable<E>
         {
             int position = myhash(e);
             
-            myTable.add(position);
+            hashKeys.add(position);
+            
+            hashKeysPosition[position] = hashKeys.size();
+            
             objectArray[position] = e;
             
-            if(myTable.size() >= hashKeys.length / 2)
+            if(hashKeys.size() >= hashKeysPosition.length / 2)
             {
                 rehash();
             }
@@ -53,7 +56,7 @@ class HashTable<E> implements NoInitHashTable<E>
     @Override
     public boolean contains(E e)
     {
-        return myTable.contains(myhash(e));
+        return hashKeysPosition[myhash(e)] > 0;
     }
 
     /**
@@ -71,8 +74,14 @@ class HashTable<E> implements NoInitHashTable<E>
             hashVal += size;
         }
         
-        while(!objectArray[hashVal].equals(e))
+        // Verifier si la position est libre
+        while(hashKeysPosition[hashVal] > 0)
         {
+            if(objectArray[hashVal].equals(e))
+            {
+                break;
+            }
+            // Gerer les conditions avec un sondage lineaire
             hashVal = (hashVal + 1) % size;
         }
         
@@ -87,14 +96,14 @@ class HashTable<E> implements NoInitHashTable<E>
     {
         int newSize = nextPrime(objectArray.length*2);
         
-        Vector<Integer> oldTable = new Vector<>(myTable);
+        Vector<Integer> oldTable = new Vector<>(hashKeys); // Save the old hashes
         
-        E[] oldArray = objectArray;
+        E[] oldArray = objectArray; // Save the old array of objects
         
-        objectArray = (E[]) new Object[newSize];
-        hashKeys = new int[newSize];
+        objectArray = (E[]) new Object[newSize]; // Make a new, bigger array
+        hashKeysPosition = new int[newSize]; // New, bigger table
         
-        myTable.clear();
+        hashKeys.clear();
         
         for(int i:oldTable)
         {
@@ -157,26 +166,50 @@ class HashTable<E> implements NoInitHashTable<E>
 
     private class HashTableIterator<E> implements HashIterator<E>
     {
-        //Completez
-        int position;
+        int position = 0;
 
         @Override
         public boolean hasNext()
         {
-            
+            return position < hashKeys.size();
         }
 
         @Override
 	public void next()
         {
-            if()
-            position++;
+            if(hasNext())
+            {
+                position++;
+            }
+            else
+            {
+                position  = 0;
+            }
         }
 
         @Override
 	public E current()
         {
-            return myTable.get(position); // ???????? DAFUQ
+            return (E) objectArray[hashKeys.get(position)];
+        }
+    }
+    
+    public static void main(String [] args)
+    {
+        HashTable<Integer> table1 = new HashTable<Integer>();
+        table1.insert(1);
+        table1.insert(2);
+        table1.insert(4);
+        table1.insert(6);
+        table1.insert(10);
+        table1.insert(12);
+        table1.insert(16);
+        
+        HashIterator<Integer> it = table1.iterator();
+        while(it.hasNext())
+        {
+            System.out.println(it.current());
+            it.next();
         }
     }
 }
