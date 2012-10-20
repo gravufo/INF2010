@@ -37,7 +37,7 @@ class HashTable<E> implements NoInitHashTable<E>
             
             hashKeys.add(position);
             
-            hashKeysPosition[position] = hashKeys.size();
+            hashKeysPosition[position] = hashKeys.size() - 1;
             
             objectArray[position] = e;
             
@@ -56,7 +56,15 @@ class HashTable<E> implements NoInitHashTable<E>
     @Override
     public boolean contains(E e)
     {
-        return hashKeysPosition[myhash(e)] > 0;
+        int hash = myhash(e),
+            index = hashKeysPosition[hash];
+        
+        if(index >= 0 && index < hashKeys.size())
+        {
+            return hashKeys.get(index) == hash;
+        }
+        
+        return false;
     }
 
     /**
@@ -197,6 +205,7 @@ class HashTable<E> implements NoInitHashTable<E>
     public static void main(String [] args)
     {
         HashTable<Integer> table1 = new HashTable<Integer>();
+        table1.insert(1);
         table1.insert(1);
         table1.insert(2);
         table1.insert(4);
