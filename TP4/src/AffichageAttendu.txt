@@ -1,0 +1,129 @@
+Apres quelques insertions...
+|__201 (black)
+   |__119 (red)
+   |   |__106 (black)
+   |   |__137 (black)
+   |      |__128 (red)
+   |      |__148 (red)
+   |__302 (red)
+      |__225 (black)
+      |   |__210 (red)
+      |   |__235 (red)
+      |__401 (black)
+         |__315 (red)
+         |__null (black)
+
+Recherche valeur 401 : Noeud trouvé.
+Recherche valeur 99 : Noeud introuvable.
+
+PreOrdre ( {201 (black)}, {119 (red)}, {106 (black)}, {137 (black)}, {128 (red)}, {148 (red)}, {302 (red)}, {225 (black)}, {210 (red)}, {235 (red)}, {401 (black)}, {315 (red)} )
+PostOrdre ( {106 (black)}, {128 (red)}, {148 (red)}, {137 (black)}, {119 (red)}, {210 (red)}, {235 (red)}, {225 (black)}, {315 (red)}, {401 (black)}, {302 (red)}, {201 (black)} )
+
+Tests de supression
+|__201 (black)
+   |__137 (red)
+   |   |__119 (black)
+   |   |   |__null (black)
+   |   |   |__128 (red)
+   |   |__148 (black)
+   |__302 (red)
+      |__225 (black)
+      |   |__210 (red)
+      |   |__235 (red)
+      |__401 (black)
+         |__315 (red)
+         |__null (black)
+
+Remove 235
+|__201 (black)
+   |__137 (red)
+   |   |__119 (black)
+   |   |   |__null (black)
+   |   |   |__128 (red)
+   |   |__148 (black)
+   |__302 (red)
+      |__225 (black)
+      |   |__210 (red)
+      |   |__null (black)
+      |__401 (black)
+         |__315 (red)
+         |__null (black)
+
+Remove 225
+|__201 (black)
+   |__137 (red)
+   |   |__119 (black)
+   |   |   |__null (black)
+   |   |   |__128 (red)
+   |   |__148 (black)
+   |__302 (red)
+      |__210 (black)
+      |__401 (black)
+         |__315 (red)
+         |__null (black)
+
+Remove 148
+|__201 (black)
+   |__128 (red)
+   |   |__119 (black)
+   |   |__137 (black)
+   |__302 (red)
+      |__210 (black)
+      |__401 (black)
+         |__315 (red)
+         |__null (black)
+
+Remove 137
+|__201 (black)
+   |__128 (black)
+   |   |__119 (red)
+   |   |__null (black)
+   |__302 (red)
+      |__210 (black)
+      |__401 (black)
+         |__315 (red)
+         |__null (black)
+
+Remove 315
+|__201 (black)
+   |__128 (black)
+   |   |__119 (red)
+   |   |__null (black)
+   |__302 (red)
+      |__210 (black)
+      |__401 (black)
+
+Remove 210
+|__201 (black)
+   |__128 (black)
+   |   |__119 (red)
+   |   |__null (black)
+   |__302 (black)
+      |__null (black)
+      |__401 (red)
+
+Remove 128
+|__201 (black)
+   |__119 (black)
+   |__302 (black)
+      |__null (black)
+      |__401 (red)
+
+Remove 119
+|__302 (black)
+   |__201 (black)
+   |__401 (black)
+
+Remove 302
+|__401 (black)
+   |__201 (red)
+   |__null (black)
+
+Remove 401
+|__201 (black)
+
+Remove 106
+|__201 (black)
+
+Recherche valeur 201 : Noeud trouvé.
+Recherche valeur 99 : Noeud introuvable.
