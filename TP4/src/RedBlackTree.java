@@ -1,13 +1,10 @@
-
 public class RedBlackTree<T extends Comparable<? super T>>
 {
-
     private RBNode<T> root;  // Racine de l'arbre
     private RBNode<T> nil; // BONUS
 
     enum ChildType
     {
-
         left, right
     }
 
@@ -60,7 +57,7 @@ public class RedBlackTree<T extends Comparable<? super T>>
 
     private T find(RBNode<T> current, int key)
     {
-        if (current.value == null)
+        if (current.isNil())
         {
             return null;
         }
@@ -88,6 +85,12 @@ public class RedBlackTree<T extends Comparable<? super T>>
 
     private void insertNode(RBNode<T> newNode)
     {
+        // On initialise le nouveau noeud afin qu'il pointe vers nil
+        newNode.leftChild = nil;
+        newNode.leftChild.parent = newNode;
+        newNode.rightChild = nil;
+        newNode.rightChild.parent = newNode;
+
         if (root == null)  // Si arbre vide
         {
             root = newNode;
@@ -247,16 +250,16 @@ public class RedBlackTree<T extends Comparable<? super T>>
         // Left child de P devient right child de G
         RBNode<T> P = G.rightChild;
         RBNode<T> temp = P.leftChild;
-        
+
         if (G == root)
         {
             root = P;
         }
-        
+
         P.leftChild = G;
         P.parent = G.parent;
 
-        if (G.parent != null)
+        if (!G.parent.isNil())
         {
             if (G.parent.leftChild == G)
             {
@@ -407,7 +410,10 @@ public class RedBlackTree<T extends Comparable<? super T>>
             }
             else
             {
-                removeCase1(C);
+                if (!C.isNil())
+                {
+                    removeCase1(C);
+                }
             }
         }
     }
@@ -434,8 +440,6 @@ public class RedBlackTree<T extends Comparable<? super T>>
             {
                 rotateLeft(P);
             }
-            else
-;
             rotateRight(P);
         }
 
@@ -611,10 +615,13 @@ public class RedBlackTree<T extends Comparable<? super T>>
         {
             setToRed();
             value = val;
-            leftChild = new RBNode<T>();
-            leftChild.parent = this;
-            rightChild = new RBNode<T>();
-            rightChild.parent = this;
+            
+            // Ne pas creer des Nodes inutilement, puisque nous utilisons nil
+            
+            //leftChild = new RBNode<T>();
+            //leftChild.parent = this;
+            //rightChild = new RBNode<T>();
+            //rightChild.parent = this;
         }
 
         RBNode<T> grandParent()
