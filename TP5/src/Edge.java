@@ -1,29 +1,36 @@
-public class Edge {
-	private Integer source;
-	private Integer destination;
-	private Integer weight;
 
-	public Edge(Integer source, Integer destination, Integer weight) {
-		super();
-		this.source = source;
-		this.destination = destination;
-		this.weight = weight;
-	}
+public class Edge
+{
 
-	public String toString()
-	{ 
-		return "(" + source + ", " + destination + ", " + weight + ")"; 
-	}
+    private Integer source;
+    private Integer destination;
+    private Integer weight;
 
-	public Integer getSource() {
-		return source;
-	}
+    public Edge(Integer source, Integer destination, Integer weight)
+    {
+        super();
+        this.source = source;
+        this.destination = destination;
+        this.weight = weight;
+    }
 
-	public Integer getDestination() {
-		return destination;
-	}
+    public String toString()
+    {
+        return "(" + source + ", " + destination + ", " + weight + ")";
+    }
 
-	public Integer getWeight() {
-		return weight;
-	}
+    public Integer getSource()
+    {
+        return source;
+    }
+
+    public Integer getDestination()
+    {
+        return destination;
+    }
+
+    public Integer getWeight()
+    {
+        return weight;
+    }
 }
