@@ -45,11 +45,4 @@ public class Graph implements DijkstraGraph
             }
         }
     }
-//    public static void main(String[] args) {
-//        Graph graph = new Graph(5);
-//        graph.addEdge(0, 3, 3);
-//        graph.addEdge(0, 4, 4);
-//        System.out.println(graph.getNeighbors(0).get(0).toString());
-//        System.out.println(graph.getNeighbors(0).get(1).toString());
-//    }
 }

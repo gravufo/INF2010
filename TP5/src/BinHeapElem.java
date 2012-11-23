@@ -2,11 +2,38 @@
 public class BinHeapElem<T> implements Comparable<T>
 {
 
-    T x;
+    T value;
+    int key;
+
+    public BinHeapElem(T value, int key)
+    {
+        this.value = value;
+        this.key = key;
+    }
+    
+    public T getValue()
+    {
+        return value;
+    }
+
+    public void setValue(T value)
+    {
+        this.value = value;
+    }
+
+    public int getKey()
+    {
+        return key;
+    }
+
+    public void setKey(int key)
+    {
+        this.key = key;
+    }
 
     @Override
     public int compareTo(T o)
     {
-        return o.hashCode() - x.hashCode();
+        return key - ((BinHeapElem<T>)o).key;
     }
 }

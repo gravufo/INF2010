@@ -52,10 +52,7 @@ public class FibonacciHeap<T>
         }
         else
         {
-            newNode.right = minNode.right;
-            newNode.left = minNode;
-            minNode.right = newNode;
-            newNode.right.left = newNode;
+            insertInNodeList(minNode, newNode);
 
             if (key < minNode.key)
             {
@@ -63,8 +60,8 @@ public class FibonacciHeap<T>
             }
         }
 
-        //nodeMap.put(value, newNode);
-        size += 1;
+        nodeMap.put(value, newNode);
+        size++;
     }
 
     public T extractMin()
@@ -262,18 +259,25 @@ public class FibonacciHeap<T>
 //        y.degree -= 1;
 //        x.parent = null;
 //        x.mark = false;
-        if (x.left != x)
+        if (x.right == x)
         {
-            x.left.right = x.right;
-            x.right.left = x.left;
-        }
+            y.child = null;
 
+        }
+        else if (x == minNode)
+        {
+            extractMin();
+        }
+        else
+        {
+            y.child = x.right;
+            x.right.left = x.left;
+            x.left.right = x.right;
+        }
+        
         y.degree--;
 
-        x.right = minNode.right;
-        x.left = minNode;
-        minNode.right = x;
-        x.right.left = x;
+        insertInNodeList(minNode, x);
 
         x.parent = null;
         x.mark = false;

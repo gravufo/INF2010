@@ -9,7 +9,7 @@ public class Dijkstra
     public static void fiboHeapDijkstra(DijkstraGraph graph, int source, int[] distance)
     {
 
-        FibonacciHeap<Integer> fHeap = new FibonacciHeap<Integer>();
+        FibonacciHeap<Integer> fHeap = new FibonacciHeap<>();
 
         for (int i = 0; i < graph.size(); i++)
         {
@@ -35,7 +35,7 @@ public class Dijkstra
             {
                 currentEdge = graph.getNeighbors(distanceMin).get(i);
 
-                if (distance[currentEdge.getDestination()] > distance[distanceMin] + currentEdge.getWeight())
+                if (distance[currentEdge.getDestination()] > distance[distanceMin] + currentEdge.getWeight() && distance[currentEdge.getDestination()] != Integer.MAX_VALUE)
                 {
                     distance[currentEdge.getDestination()] = distance[distanceMin] + currentEdge.getWeight();
                     fHeap.decreaseKey(currentEdge.getDestination(), distance[currentEdge.getDestination()]);
@@ -46,40 +46,50 @@ public class Dijkstra
 
     public static void binHeapDijkstra(DijkstraGraph graph, int source, int[] distance)
     {
-//        PriorityQueue<Integer> bHeap = new PriorityQueue<>();
-//
-//        for (int i = 0; i < graph.size(); i++)
-//        {
-//            distance[i] = Integer.MAX_VALUE;
-//        }
-//        distance[source] = 0;
-//
-//        bHeap.clear();
-//
-//        for (int i = 0; i < graph.size(); i++)
-//        {
-//            bHeap.offer(i);
-//        }
-//
-//        int distanceMin;
-//        Edge currentEdge;
-//        //START FROM HERE
-//
-//        while (bHeap.isEmpty())
-//        {
-//            distanceMin = bHeap.extractMin();
-//
-//            for (int i = 0; i < graph.getNeighbors(distanceMin).size(); i++)
-//            {
-//                currentEdge = graph.getNeighbors(distanceMin).get(i);
-//
-//                if (distance[currentEdge.getDestination()] > distance[distanceMin] + currentEdge.getWeight())
-//                {
-//                    distance[currentEdge.getDestination()] = distance[distanceMin] + currentEdge.getWeight();
-//                    bHeap.decreaseKey(currentEdge.getDestination(), distance[currentEdge.getDestination()]);
-//                }
-//            }
-//        }
+        PriorityQueue<BinHeapElem<Integer>> bHeap = new PriorityQueue<>();
+
+        for (int i = 0; i < graph.size(); i++)
+        {
+            distance[i] = Integer.MAX_VALUE;
+        }
+        distance[source] = 0;
+
+        bHeap.clear();
+
+        for (int i = 0; i < graph.size(); i++)
+        {
+            bHeap.offer(new BinHeapElem<>(i, distance[i]));
+        }
+
+        int distanceMin;
+        Edge currentEdge;
+        //START FROM HERE
+
+        while (!bHeap.isEmpty())
+        {
+            distanceMin = bHeap.poll().value;
+
+            for (int i = 0; i < graph.getNeighbors(distanceMin).size(); i++)
+            {
+                currentEdge = graph.getNeighbors(distanceMin).get(i);
+
+                if (distance[currentEdge.getDestination()] > distance[distanceMin] + currentEdge.getWeight() && distance[currentEdge.getDestination()] != Integer.MAX_VALUE)
+                {
+                    distance[currentEdge.getDestination()] = distance[distanceMin] + currentEdge.getWeight();
+                    
+                    for(BinHeapElem<Integer> pos:bHeap)
+                    {
+                        if(pos.value == currentEdge.getDestination())
+                        {
+                            bHeap.remove(pos);
+                            break;
+                        }
+                    }
+                    bHeap.offer(new BinHeapElem<>(currentEdge.getDestination(), distance[currentEdge.getDestination()]));
+                    //bHeap.decreaseKey(currentEdge.getDestination(), distance[currentEdge.getDestination()]);
+                }
+            }
+        }
     }
 
     public static void printPath(int source, int destination)
